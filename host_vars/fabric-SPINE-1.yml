@@ -1,0 +1,283 @@
+hostname: fabric-SPINE-1
+os10_bgp:
+  asn: 64600
+  best_path:
+    as_path: multipath-relax
+  graceful_restart: true
+  maxpath_ebgp: 2
+  neighbor:
+  - adv_interval: 1
+    fall_over: present
+    name: spine-leaf
+    timer: 3 9
+    type: peergroup
+  - address_family:
+    - type: ipv4
+    admin: up
+    adv_interval: 1
+    fall_over: present
+    ip: 192.168.1.1
+    name: spine-leaf
+    peergroup: spine-leaf
+    remote_asn: 64625
+    sender_loop_detect: false
+    timer: 3 9
+    type: ipv4
+  - address_family:
+    - type: ipv4
+    admin: up
+    adv_interval: 1
+    fall_over: present
+    ip: 192.168.1.3
+    name: spine-leaf
+    peergroup: spine-leaf
+    remote_asn: 64625
+    sender_loop_detect: false
+    timer: 3 9
+    type: ipv4
+  - address_family:
+    - type: ipv4
+    admin: up
+    adv_interval: 1
+    fall_over: present
+    ip: 192.168.1.5
+    name: spine-leaf
+    peergroup: spine-leaf
+    remote_asn: 64626
+    sender_loop_detect: false
+    timer: 3 9
+    type: ipv4
+  - address_family:
+    - type: ipv4
+    admin: up
+    adv_interval: 1
+    fall_over: present
+    ip: 192.168.1.7
+    name: spine-leaf
+    peergroup: spine-leaf
+    remote_asn: 64626
+    sender_loop_detect: false
+    timer: 3 9
+    type: ipv4
+  - address_family:
+    - type: ipv4
+    admin: up
+    adv_interval: 1
+    fall_over: present
+    ip: 192.168.1.9
+    name: spine-leaf
+    peergroup: spine-leaf
+    remote_asn: 64627
+    sender_loop_detect: false
+    timer: 3 9
+    type: ipv4
+  - address_family:
+    - type: ipv4
+    admin: up
+    adv_interval: 1
+    fall_over: present
+    ip: 192.168.1.11
+    name: spine-leaf
+    peergroup: spine-leaf
+    remote_asn: 64627
+    sender_loop_detect: false
+    timer: 3 9
+    type: ipv4
+  - address_family:
+    - activate: false
+      type: ipv4
+    - activate: true
+      type: l2vpn
+    admin: up
+    adv_interval: 1
+    ebgp_multihop: 4
+    fall_over: present
+    ip: 10.0.2.1
+    name: spine-leaf
+    peergroup: spine-leaf
+    remote_asn: 64625
+    send_community:
+    - state: present
+      type: extended
+    sender_loop_detect: false
+    timer: 3 9
+    type: ipv4
+  - address_family:
+    - activate: false
+      type: ipv4
+    - activate: true
+      type: l2vpn
+    admin: up
+    adv_interval: 1
+    ebgp_multihop: 4
+    fall_over: present
+    ip: 10.0.2.2
+    name: spine-leaf
+    peergroup: spine-leaf
+    remote_asn: 64625
+    send_community:
+    - state: present
+      type: extended
+    sender_loop_detect: false
+    timer: 3 9
+    type: ipv4
+  - address_family:
+    - activate: false
+      type: ipv4
+    - activate: true
+      type: l2vpn
+    admin: up
+    adv_interval: 1
+    ebgp_multihop: 4
+    fall_over: present
+    ip: 10.0.2.3
+    name: spine-leaf
+    peergroup: spine-leaf
+    remote_asn: 64626
+    send_community:
+    - state: present
+      type: extended
+    sender_loop_detect: false
+    timer: 3 9
+    type: ipv4
+  - address_family:
+    - activate: false
+      type: ipv4
+    - activate: true
+      type: l2vpn
+    admin: up
+    adv_interval: 1
+    ebgp_multihop: 4
+    fall_over: present
+    ip: 10.0.2.4
+    name: spine-leaf
+    peergroup: spine-leaf
+    remote_asn: 64626
+    send_community:
+    - state: present
+      type: extended
+    sender_loop_detect: false
+    timer: 3 9
+    type: ipv4
+  - address_family:
+    - activate: false
+      type: ipv4
+    - activate: true
+      type: l2vpn
+    admin: up
+    adv_interval: 1
+    ebgp_multihop: 4
+    fall_over: present
+    ip: 10.0.2.5
+    name: spine-leaf
+    peergroup: spine-leaf
+    remote_asn: 64627
+    send_community:
+    - state: present
+      type: extended
+    sender_loop_detect: false
+    timer: 3 9
+    type: ipv4
+  - address_family:
+    - activate: false
+      type: ipv4
+    - activate: true
+      type: l2vpn
+    admin: up
+    adv_interval: 1
+    ebgp_multihop: 4
+    fall_over: present
+    ip: 10.0.2.6
+    name: spine-leaf
+    peergroup: spine-leaf
+    remote_asn: 64627
+    send_community:
+    - state: present
+      type: extended
+    sender_loop_detect: false
+    timer: 3 9
+    type: ipv4
+  redistribute:
+  - address_type: ipv4
+    route_map_name: spine-leaf
+    route_type: connected
+  router_id: 10.0.1.1
+os10_interface:
+  ethernet 1/1/1:
+    admin: up
+    desc: Interlink to fabric-LEAF-1 1/1/6
+    ip_and_mask: 192.168.1.0/31
+    mtu: 9216
+    switchport: false
+  ethernet 1/1/2:
+    admin: up
+    desc: Interlink to fabric-LEAF-2 1/1/6
+    ip_and_mask: 192.168.1.2/31
+    mtu: 9216
+    switchport: false
+  ethernet 1/1/3:
+    admin: up
+    desc: Interlink to fabric-LEAF-3 1/1/6
+    ip_and_mask: 192.168.1.4/31
+    mtu: 9216
+    switchport: false
+  ethernet 1/1/4:
+    admin: up
+    desc: Interlink to fabric-LEAF-4 1/1/6
+    ip_and_mask: 192.168.1.6/31
+    mtu: 9216
+    switchport: false
+  ethernet 1/1/5:
+    admin: up
+    desc: Interlink to fabric-LEAF-5 1/1/6
+    ip_and_mask: 192.168.1.8/31
+    mtu: 9216
+    switchport: false
+  ethernet 1/1/6:
+    admin: up
+    desc: Interlink to fabric-LEAF-6 1/1/6
+    ip_and_mask: 192.168.1.10/31
+    mtu: 9216
+    switchport: false
+  loopback 0:
+    admin: up
+    ip_and_mask: 10.0.1.1/32
+os10_lldp:
+  enable: true
+os10_ntp:
+  server:
+  - ip: 10.204.9.254
+    prefer: true
+os10_prefix_list:
+- entries:
+  - condition_list:
+    - condition: ge
+      prelen: '24'
+    mask: '16'
+    net_num: 10.0.0.0
+    number: 10
+    permit: true
+    state: present
+  - condition_list:
+    - condition: ge
+      prelen: '24'
+    mask: '16'
+    net_num: 192.168.0.0
+    number: 20
+    permit: true
+    state: present
+  name: spine-leaf
+  state: present
+  type: ipv4
+os10_route_map:
+  route_map:
+  - match:
+    - ip_type: ipv4
+      prefix_list: spine-leaf
+    name: spine-leaf
+    permit: true
+    seq_num: 10
+os10_system:
+  hostname: fabric-SPINE-1
+os10_xstp:
+  intf: {}
