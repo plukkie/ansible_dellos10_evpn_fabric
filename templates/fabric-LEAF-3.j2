@@ -7,8 +7,6 @@ ip name-server 10.204.0.151 10.204.0.152
 !
 virtual-network 1
 !
-virtual-network 2
-!
 virtual-network 3
 !
 interface vlan 101
@@ -18,9 +16,6 @@ interface vlan 101
 interface vlan 4000
  mtu 9216
 
-interface vlan 201
- virtual-network 2
-!
 interface vlan 301
  virtual-network 3
 !
@@ -35,50 +30,27 @@ interface virtual-network 1
  ip virtual-router address 172.16.0.254
  exit
 !
-interface virtual-network 2
- no shutdown
- description "vlan:201_extended_to_switches:fabric-LEAF-3_fabric-LEAF-4"
- ip vrf forwarding tenant1
- ip virtual-router address 172.16.1.254
- exit
-!
 interface virtual-network 3
  no shutdown
  description "vlan:301_extended_to_switches:fabric-LEAF-5_fabric-LEAF-6"
  ip vrf forwarding tenant1
- ip virtual-router address 172.16.2.254
+ ip address 172.16.3.3/24
+ ip virtual-router address 172.16.3.254
  exit
 !
 vlt-domain 127
  backup destination 10.204.11.214
- discovery-interface ethernet1/1/8
  discovery-interface ethernet1/1/9
  peer-routing
  vlt-mac 00:00:00:00:00:34
 !
-uplink-state-group 1
- name "Virtual-switch-fail-over"
- enable
- upstream ethernet1/1/4
- upstream ethernet1/1/5
- upstream ethernet1/1/6
- upstream ethernet1/1/7
- upstream VLTi
- downstream ethernet1/1/1
- downstream ethernet1/1/2
-!
 evpn
- router-mac 00:01:02:03:04:01
+ router-mac 00:00:00:03:04:01
  !
  evi 1
   vni 101
   rd auto
   route-target 101:1 both
- !
- evi 2
-  vni 201
-  rd auto
-  route-target 201:1 both
  !
  evi 3
   vni 301
@@ -94,11 +66,6 @@ virtual-network 1
  description vlan:101_extended_to_switches:
  !
  vxlan-vni 101
-!
-virtual-network 2
- description vlan:201_extended_to_switches:fabric-LEAF-3_fabric-LEAF-4
- ! 
- vxlan-vni 201
 !
 virtual-network 3
  description vlan:301_extended_to_switches:fabric-LEAF-5_fabric-LEAF-6

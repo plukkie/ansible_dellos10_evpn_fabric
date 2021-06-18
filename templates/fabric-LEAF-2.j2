@@ -51,21 +51,9 @@ interface virtual-network 3
 !
 vlt-domain 127
  backup destination 10.204.11.211
- discovery-interface ethernet1/1/8
  discovery-interface ethernet1/1/9
  peer-routing
  vlt-mac 00:00:00:00:00:12
-!
-uplink-state-group 1
- name "Virtual-switch-fail-over"
- enable
- upstream ethernet1/1/4
- upstream ethernet1/1/5
- upstream ethernet1/1/6
- upstream ethernet1/1/7
- upstream VLTi
- downstream ethernet1/1/1
- downstream ethernet1/1/2
 !
 evpn
  router-mac 00:01:02:03:04:01

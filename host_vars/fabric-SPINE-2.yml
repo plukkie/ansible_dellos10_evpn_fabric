@@ -11,6 +11,12 @@ os10_bgp:
     name: spine-leaf
     timer: 3 9
     type: peergroup
+  - adv_interval: 1
+    fall_over: present
+    name: spine-leaf-evpn
+    timer: 3 9
+    type: peergroup
+    src_loopback: 0
   - address_family:
     - type: ipv4
     admin: up
@@ -94,7 +100,7 @@ os10_bgp:
     fall_over: present
     ip: 10.0.2.1
     name: spine-leaf
-    peergroup: spine-leaf
+    peergroup: spine-leaf-evpn
     remote_asn: 64625
     send_community:
     - state: present
@@ -113,7 +119,7 @@ os10_bgp:
     fall_over: present
     ip: 10.0.2.2
     name: spine-leaf
-    peergroup: spine-leaf
+    peergroup: spine-leaf-evpn
     remote_asn: 64625
     send_community:
     - state: present
@@ -132,7 +138,7 @@ os10_bgp:
     fall_over: present
     ip: 10.0.2.3
     name: spine-leaf
-    peergroup: spine-leaf
+    peergroup: spine-leaf-evpn
     remote_asn: 64626
     send_community:
     - state: present
@@ -151,7 +157,7 @@ os10_bgp:
     fall_over: present
     ip: 10.0.2.4
     name: spine-leaf
-    peergroup: spine-leaf
+    peergroup: spine-leaf-evpn
     remote_asn: 64626
     send_community:
     - state: present
@@ -170,7 +176,7 @@ os10_bgp:
     fall_over: present
     ip: 10.0.2.5
     name: spine-leaf
-    peergroup: spine-leaf
+    peergroup: spine-leaf-evpn
     remote_asn: 64627
     send_community:
     - state: present
@@ -189,7 +195,7 @@ os10_bgp:
     fall_over: present
     ip: 10.0.2.6
     name: spine-leaf
-    peergroup: spine-leaf
+    peergroup: spine-leaf-evpn
     remote_asn: 64627
     send_community:
     - state: present

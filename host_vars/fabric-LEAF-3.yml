@@ -11,6 +11,12 @@ os10_bgp:
     name: spine-leaf
     timer: 3 9
     type: peergroup
+  - adv_interval: 1
+    fall_over: present
+    name: spine-leaf-evpn
+    timer: 3 9
+    type: peergroup
+    src_loopback: 0
   - address_family:
     - allow_as_in: 1
       type: ipv4
@@ -50,7 +56,7 @@ os10_bgp:
     fall_over: present
     ip: 10.0.1.1
     name: spine-leaf
-    peergroup: spine-leaf
+    peergroup: spine-leaf-evpn
     remote_asn: 64600
     send_community:
     - state: present
@@ -69,7 +75,7 @@ os10_bgp:
     fall_over: present
     ip: 10.0.1.2
     name: spine-leaf
-    peergroup: spine-leaf
+    peergroup: spine-leaf-evpn
     remote_asn: 64600
     send_community:
     - state: present
@@ -82,6 +88,7 @@ os10_bgp:
     route_map_name: spine-leaf
     route_type: connected
   router_id: 10.0.2.3
+
 os10_interface:
   ethernet 1/1/1:
     admin: up
@@ -124,11 +131,9 @@ os10_interface:
   loopback 1:
     admin: up
     ip_and_mask: 1.0.1.2/32
-os10_lag:
-  Po 10:
-    admin: up
-    state: present
-    type: dynamic
+  vlan 34:
+     vrf: tenant1
+
 os10_lldp:
   enable: true
 os10_ntp:
@@ -174,34 +179,83 @@ os10_route_map:
     seq_num: 10
 os10_system:
   hostname: fabric-LEAF-3
+
 os10_vlan:
-  Vlan 201:
-    description: Compute_2_Management
+  Vlan 34:
+    tagged_members:
+    - port: port-channel 101
+      state: present
+    description: vlan34_local
+    ip_and_mask: 172.16.34.1/24
+    state: present
+  Vlan 101:
+    description: vlan101_all_leafs
     ip_and_mask: null
     state: present
     tagged_members:
-    - port: Po 10
+    - port: port-channel 101
+      state: present
+  Vlan 301:
+    description: vlan301_pair34_pair56
+    ip_and_mask: null
+    state: present
+    tagged_members:
+    - port: port-channel 101
       state: present
   Vlan 4000:
     description: iBGP_link
     ip_and_mask: 192.168.3.2/31
     state: present
+
 os10_vlt:
-  discovery_intf: 1/1/8-1/1/9
+  discovery_intf: 1/1/9
   discovery_intf_state: present
   domain: 127
   peer_routing: true
   vlt_mac: 00:00:00:00:00:34
   vlt_peers:
-    Po 10:
-      peer_lag: 10
+    Po 101:
+      peer_lag: 101
+
 os10_xstp:
   enable: true
   intf:
-    Po 10:
-      bpdu_guard: true
+    Po 101:
+      bpdu_guard: false
       edge_port: true
       guard: root
   rstp:
     bridge_priority: 0
   type: rstp
+
+os10_lag:
+  Po 101:
+    type: dynamic
+    min_links: 1
+    lacp:
+      long_timeout: true
+      fast_switchover: true
+    channel_members:
+    - port: ethernet 1/1/1
+      state: present
+      mode: active
+    state: present
+
+os10_vrrp:
+  Vlan 34:
+    vrrp_group:
+    - group_id: 34
+      type: ipv4
+      state: present
+      virtual_address:
+              - ip: 172.16.34.254
+                state: present
+      enable: true
+      priority: 110
+      preempt: true
+
+os10_vrf:
+  vrfdetails:
+    - vrf_name: tenant1
+      state: present
+

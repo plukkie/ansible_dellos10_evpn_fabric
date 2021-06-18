@@ -2,13 +2,14 @@
   - dellemc.os10
   connection: network_cli
   gather_facts: false
-  hosts: fabric
+  hosts: fabric 
   pre_tasks:
   - name: PreConfigs
     os10_config:
       src: '{{ hostname }}.j2.pre'
     when: preconf_path is exists
   roles:
+  - os10_vrf
   - os10_interface
   - os10_vlan
   - os10_lag
@@ -21,7 +22,6 @@
   - os10_prefix_list
   - os10_bgp
   - os10_xstp
-  - os10_vrf
   - os10_snmp
   - os10_ntp
   - os10_logging
